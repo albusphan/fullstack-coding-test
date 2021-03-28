@@ -1,24 +1,29 @@
 import Head from "next/head";
-import styles from "../styles/Home.module.css";
-import DynamicText from "../components/DynamicText";
+import { useRef } from "react";
+import { Input } from "@chakra-ui/input";
+import { Center, Link, Text } from "@chakra-ui/layout";
+
+import DynamicText from "components/DynamicText";
 
 const Home = () => {
+  const ref = useRef<{ changeValue?: (value: string) => void }>();
+
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.value);
+    ref.current?.changeValue(e.target.value);
   };
 
   return (
-    <div className={styles.container}>
+    <Center minH="100vh" px="2" flexDirection="column">
       <Head>
-        <title>Coding Test</title>
-        <link rel="icon" href="/favicon.ico" />
+        <Text as="title">Coding Test</Text>
+        <Link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className={styles.main}>
-        <DynamicText />
-        <input onChange={onChange} />
-      </main>
-    </div>
+      <Center maxW="32rem" flex="1" flexDirection="column" py="20">
+        <DynamicText ref={ref} />
+        <Input placeholder="Type something" onChange={onChange} />
+      </Center>
+    </Center>
   );
 };
 
